@@ -83,6 +83,42 @@ En git los commits son inmutables. Esto no significa que los errores
 no se puedan borrar de la historia, simplemente que editarlos implicaría
 crear nuevos commits. 
 
+### Working directory-Staging Area-Repository
+
+¿Tendría sentido que cada vez que hagamos commit, git guardara
+todo los archivos con cambios que tenemos en nuestra carpeta e hiciera
+el commit con estos? Algunos sistemas de versionamiento funcionan así
+pero no git. En git queremos commit _limpios_ y esto no siempre
+es alcanzable haciendo commit  de toda la carpeta. Por dar un ejemplo,
+pensemos en el caso en el que implementemos dos funciones, una ya funcional
+y otra que aún contiene ciertas fallas, solamente quisieramos guardar en un
+nuevo commit el avance en la que ya funciona y probablemente hacer otro commit
+con la otra cuando ya este terminada. La manera de git de acomodarse a estos
+casos es mediante la staging area.  
+
+En git tenemos 3 diferentes zonas de trabajo _working directory_, _staging area_ y _repository_.
+Por regla general, _working directory_ es el estado actual de mi directorio,
+con todos los cambios nuevos (incluyendo a los cuales aún no he hecho commit).
+El _staging area_ representa los archivos a los cuales planeo agregar en mi siguiente commit y
+_repository_ es el repositorio donde solamente se guarda la información a la cuál se le hizo commit.  
+
+Entonces imagenemos el caso anteriormente descrito, para yo solamente hacer un commit sobre un
+archivo (funcion_1.py) puedo hacer lo siguiente:
+
+```console
+git add funcion_1.py
+```
+
+En este caso, ya la función 1 estaría en mi _staging area_ y para guardar estos cambios en el
+repositorio, simplemente haría:
+
+```console
+git commit -m "Implementa funcion 1"
+```
+Entonces ya estos cambios estarían guardados en el repositorio.
+
+![](imgs/staging_area.png){: .center-image }
+
 ### Referencias
 
 Para git, todos los objetos (**commit**, **blob**, **tree**) están
@@ -197,41 +233,7 @@ docs/_build/
 
 
 
-### Working directory-Staging Area-Repository
 
-¿Tendría sentido que cada vez que hagamos commit, git guardara
-todo los archivos con cambios que tenemos en nuestra carpeta e hiciera
-el commit con estos? Algunos sistemas de versionamiento funcionan así
-pero no git. En git queremos commit _limpios_ y esto no siempre
-es alcanzable haciendo commit  de toda la carpeta. Por dar un ejemplo,
-pensemos en el caso en el que implementemos dos funciones, una ya funcional
-y otra que aún contiene ciertas fallas, solamente quisieramos guardar en un
-nuevo commit el avance en la que ya funciona y probablemente hacer otro commit
-con la otra cuando ya este terminada. La manera de git de acomodarse a estos
-casos es mediante la staging area.  
-
-En git tenemos 3 diferentes zonas de trabajo _working directory_, _staging area_ y _repository_.
-Por regla general, _working directory_ es el estado actual de mi directorio,
-con todos los cambios nuevos (incluyendo a los cuales aún no he hecho commit).
-El _staging area_ representa los archivos a los cuales planeo agregar en mi siguiente commit y
-_repository_ es el repositorio donde solamente se guarda la información a la cuál se le hizo commit.  
-
-Entonces imagenemos el caso anteriormente descrito, para yo solamente hacer un commit sobre un
-archivo (funcion_1.py) puedo hacer lo siguiente:
-
-```console
-git add funcion_1.py
-```
-
-En este caso, ya la función 1 estaría en mi _staging area_ y para guardar estos cambios en el
-repositorio, simplemente haría:
-
-```console
-git commit -m "Implementa funcion 1"
-```
-Entonces ya estos cambios estarían guardados en el repositorio.
-
-![](imgs/staging_area.png){: .center-image }
 
 ### git reset
 
@@ -280,3 +282,37 @@ A1 <-- A2 <-- A3 <--   A4
               |
             main
 ```
+
+## ¿Cómo puedo utilizar Git?
+
+Hay diferentes formas de utilizar Git, independiente si se está trabajando en un repositorio remoto o local, en trabajo individual o colaborativo. 
+
+### Git por consola 
+
+Existen las herramientas originales de línea de comandos, como lo son el Terminal en entornos Linux, o el CMD o PowerShell en entornos Linux.
+
+Además de las herramientas nativas de los sistemas operativos, encontramos también herramientas como **Git Bash** que puede llegar a emular la experiencia de línea de comangos de Git, como se realizaría en un entorno Linux. 
+
+### Git en editores de texto
+Los editores de texto y los IDE (Entornos de Desarrollo Integrado) que se utilizan popularmente para programar, también tienen compatibilidad con Git, integrando de una forma bastante práctica las funcionalidades y con la comodidad de realizarlo desde el mismo entorno de desarrollo. 
+
+#### Editores de código
+- [Visual Studio code](https://code.visualstudio.com/docs/editor/versioncontrol)
+- [Atom](https://flight-manual.atom.io/using-atom/sections/version-control-in-atom/)
+- [Sublime Text](https://www.sublimetext.com/docs/git_integration.html)
+- [Brackets](https://github.com/brackets-userland/brackets-git)
+
+#### IDE (Entornos de desarrollo integrado)
+- [Visual Studio](https://docs.microsoft.com/en-us/visualstudio/version-control/git-with-visual-studio?view=vs-2019)
+- [NetBeans](https://netbeans.apache.org/kb/docs/ide/git.html)
+- [IntelliJ IDEA](https://www.jetbrains.com/help/idea/set-up-a-git-repository.html#put-existing-project-under-Git)
+- [Eclipse](https://www.eclipse.org/egit/)
+
+### Git por interfaz gráfica
+Existen herramientas de Interfaz Gráfica que sirven para manejar repositorios Git. Son herramientas de terceros que utilizan los usuarios que prefiren las interfaces gráficas que se acomoden a una plataforma en específico. Algunas de estas herramientas son: 
+
+- [GitHub Desktop](https://desktop.github.com/)
+- [Sourcetree](https://www.sourcetreeapp.com/)
+- [GitKraken](https://www.sourcetreeapp.com/)
+
+Es importante aclarar que con las herramientas de Interfaz Gráfica no es posible acceder a muchos de los comandos que si se pueden utilizar por consola. Existen más clientes de Interfaz Gráfica para Git, los cuales se pueden encontrar en el [siguiente enlace](https://git-scm.com/downloads/guis).
