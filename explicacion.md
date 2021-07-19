@@ -119,6 +119,21 @@ Entonces ya estos cambios estarían guardados en el repositorio.
 
 ![](imgs/staging_area.png){: .center-image }
 
+
+### Realizar buenos commits - Buenas prácticas
+
+Con el fin de llevar un repositorio ordenado y de fácil entendimiento para cualquier persona que acceda a el repositorio (e incluso nosotros mismos al cabo de un tiempo) es importante tener en cuenta algunos consejos, que si bien no son leyes o estándares, facilitarán el manejo de repositorios. 
+
+1. Ser coherente con el flujo de trabajo de git, realizar los commits en las ramas adecuadas. 
+2. En cuanto a los mensajes, hay algunas buenas prácticas que pueden hacer un commit más legible. 
+
+    -	Los commits tienen dos partes principales, el asunto y el mensaje. Si el contenido del commit se puede especificar en el asunto, no es necesario el mensaje.
+	- La línea del asunto no debería extenderse más de 50 caracteres y la del mensaje no más de 72. Esto con el fin de que pueda visualizarse en diferentes dispositivos y plataformas. 
+	- Dar descripciones de lo que se está realizando, por ejemplo si se está haciendo un merge, el mensaje apropiado debería ser merge branch 'nombre-rama'.
+3. Enviar cambio sen un pull request, una solicitud que se hace al repositorio cuando se envía código con cambios. 
+4. Incluir solo los archivos que se estén utilizando. 
+
+
 ### Referencias
 
 Para git, todos los objetos (**commit**, **blob**, **tree**) están
@@ -291,7 +306,7 @@ Hay diferentes formas de utilizar Git, independiente si se está trabajando en u
 
 Existen las herramientas originales de línea de comandos, como lo son el Terminal en entornos Linux, o el CMD o PowerShell en entornos Linux.
 
-Además de las herramientas nativas de los sistemas operativos, encontramos también herramientas como **Git Bash** que puede llegar a emular la experiencia de línea de comangos de Git, como se realizaría en un entorno Linux. 
+Además de las herramientas nativas de los sistemas operativos, encontramos también herramientas como **Git Bash** que puede llegar a emular la experiencia de línea de comandos de Git, como se realizaría en un entorno Linux. 
 
 ### Git en editores de texto
 Los editores de texto y los IDE (Entornos de Desarrollo Integrado) que se utilizan popularmente para programar, también tienen compatibilidad con Git, integrando de una forma bastante práctica las funcionalidades y con la comodidad de realizarlo desde el mismo entorno de desarrollo. 
@@ -316,3 +331,55 @@ Existen herramientas de Interfaz Gráfica que sirven para manejar repositorios G
 - [GitKraken](https://www.sourcetreeapp.com/)
 
 Es importante aclarar que con las herramientas de Interfaz Gráfica no es posible acceder a muchos de los comandos que si se pueden utilizar por consola. Existen más clientes de Interfaz Gráfica para Git, los cuales se pueden encontrar en el [siguiente enlace](https://git-scm.com/downloads/guis).
+
+## Y... ¿cómo se hace?
+
+A lo largo de este curso se han tratado diferentes conceptos y las formas de utilizar Git. Ahora, es momento de llevar estos conceptos a la práctica. 
+
+### ¿Cómo hacer un commit?
+
+Anteriormente se definieron los commits y las secciones o áreas de un repositorio Git, como una de las partes fundamentales de todo este mundo de Git. A continuación, cómo se realizan los commits: 
+
+#### Commit desde consola
+
+Antes de realizar un commit, es importante tener en cuenta los dos siguientes comandos: 
+```console
+git add <archivo>
+git rm <archivo>
+```
+Los anteriores comandos se utilizan para agregar/eliminar archivos al respectivo commit. Los archivos que no se hayan agregado, no se incluirán en el commit. 
+
+El comando más básico para realizar un commit es 
+```console
+git commit
+```
+Sin embargo, este comando tiene muchas opciones. Algunas de las más utilizadas se describen a continuación: 
+
+| Opción | Descripción |
+| ----------- | ----------- |
+| -a | Confirma el "shapshot" de todos los cambios del Working Directory. Solo incluye lo que se haya agregado con *git add* |
+| -m "mensaje" | Incluye un mensaje al commit. Por defecto Git abre una ventana en el editor de texto predeterminado, para incluir el mensaje. Si se utiliza esta opción se omite este paso. |
+| -am "mensaje" | Este comando es una combinación de los comandos -a y -m. |
+| --amend | Esta opción modifica una confirmación anterior. Este comando abre el editor de texto para que el mensaje del commit sea modificado. |
+
+Existen muchas otras opciones, las cuales se pueden consultar en el [siguiente enlace](https://git-scm.com/docs/git-commit#Documentation/git-commit.txt--a).
+
+#### Commits desde editores de texto
+
+Además de poder realizar los commits por consola, también se pueden utilizar los editores de código. En este caso, se mostrará con Visual Studio Code, pero en la documentación oficial de cada editor o IDE se pueden encontrar los pasos.
+
+1. Se realizan los cambios correspondientes a cada archivo y se guardan localmente en la carpeta del repositorio. 
+
+2. En la pestaña de control de versiones aparecen los cambios que se han realizado. 
+![](imgs/git-commit-step2.png)
+
+3. Agregar el mensaje al commit
+![](imgs/git-commit-step3.png)
+
+4. Finalmente se realiza el commit para agregar los cambios al repositorio. 
+
+![](imgs/git-commit-step4.png)
+
+[Visual Studio Code](https://code.visualstudio.com/docs/editor/versioncontrol) además tiene diferentes opciones para manejo de repositorios, las cuales pueden visualizarse al dar click en los tres puntos superiores. 
+
+![](imgs/git-commit-options.png)
