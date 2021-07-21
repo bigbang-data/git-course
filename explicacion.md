@@ -357,7 +357,7 @@ Sin embargo, este comando tiene muchas opciones. Algunas de las más utilizadas 
 
 | Opción | Descripción |
 | ----------- | ----------- |
-| -a | Confirma el "shapshot" de todos los cambios del Working Directory. Solo incluye lo que se haya agregado con *git add* |
+| -a | Confirma el "shapshot" de todos los cambios del Working Directory. Solo incluye lo que se haya agregado con `git add` |
 | -m "mensaje" | Incluye un mensaje al commit. Por defecto Git abre una ventana en el editor de texto predeterminado, para incluir el mensaje. Si se utiliza esta opción se omite este paso. |
 | -am "mensaje" | Este comando es una combinación de los comandos -a y -m. |
 | --amend | Esta opción modifica una confirmación anterior. Este comando abre el editor de texto para que el mensaje del commit sea modificado. |
@@ -383,3 +383,28 @@ Además de poder realizar los commits por consola, también se pueden utilizar l
 [Visual Studio Code](https://code.visualstudio.com/docs/editor/versioncontrol) además tiene diferentes opciones para manejo de repositorios, las cuales pueden visualizarse al dar click en los tres puntos superiores. 
 
 ![](imgs/git-commit-options.png)
+
+### ¿Cómo ver la historia de un repositorio?
+
+Utilizando git localmente, remoto, para trabajo individual o colaborativo, siempre será útil y de gran importancia conocer el histórico de un repositorio, ya que esto permitirá ver no solo el progreso del repositorio, sino identificar posibles puntos críticos o de errores. 
+
+El comando básico para ver la historia de un repositorio es `git log`, que imprime una lista de los commits realizados a un repositorio en un orden cronológico inverso; es decir, del más reciente al más antiguo.
+
+La salida del comando puede verse así desde la consola: 
+![](imgs/git-log.png)
+
+Así como la mayoría de comandos, este tiene opciones que permiten mostrar la información de diferentes formas. 
+
+| Opción | Descripción |
+| ----------- | ----------- |
+|-p o --patch | Muestra la diferencia en cada commit. Puede personalizarse además con la cantidad de entradas que quieren visualizarse. Por ejemplo  `git log -p -2` imprime las dos últimas entradas.|
+|--stat | Imprime la información abreviada de cada commit.|
+|--pretty | Cambia el formato predeterminado del log, para hacerlo más legible y personalizable. Los formatos que se pueden utilizar se encuentran en este [enlace](https://git-scm.com/docs/pretty-formats).|
+|--shortstat | Imprime solo las líneas que indican cambios, inserciones o eliminaciones del comando -stat|
+|--name-only | Imprime solo los archivos modificados luego de la información del commit.|
+|--name-status | Muestra la lista de elementos eliminados, agregados o cambiados junto con la inormación.|
+|--abbrev-commit | Muestra solo los primeros caracteres de su SHA-1.|
+|--relative-date | Muestra la fecha en formato como "hace dos semanas".|
+|--graph | Muestra un grafo de la rama y del historial de merge.|
+|--since y --until | Opción para incluir los commits desde o hasta cierto periodo de tiempo.|
+|--author | Aplica un filtro a los commits realizados solo por cierto usuario.|
