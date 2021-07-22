@@ -175,6 +175,17 @@ Y para los bugs en producción...
 
 Existen también las ramas de corrección o **Hotfix**, que sirven para reparar las publicaciones de producción, o en otras palabras, lo que está en la rama **Main**. La diferencia entre esta rama y las ramas de **Release** y **Feature**, es que esta se basa en el **Main**. Así puede tenerse la última versión publicada sin interferir con el resto del flujo de trabajo. 
 
+## Repositorios Remotos
+
+El trabajo con repositorios remotos es muy común sobre todo cuando se tiene un proyecto que implica trabajo colaborativo. Son versiones del proyecto que están alojadas u hospedadas en Internet o en cualquier otro lugar de una red.
+
+Anteriormente se explicó que Git no era lo mismo que GitHub. Aunque entender este concepto no implica un cambio total del entendimiento de Git, hay ciertas características que se deben tener en cuenta al gestionar repositorios remotos. 
+
+Existen diferentes plataformas de desarrollo colaborativo de Software. Aunque en este curso se profundizará en [GitHub](https://github.com/), es importante conocer los demás: 
+
+- [GitLab](https://about.gitlab.com/): Servicio de código abierto de control de versiones y desarrollo de Software colaborativo basado en Git. 
+- [BitBucket](https://bitbucket.org/): Servicio de alojamiento para proyectos con sistema de control de versiones basado en Git y [Mercurial](https://es.wikipedia.org/wiki/Mercurial).
+- [GNU Savannah](https://savannah.gnu.org/): Proyecto de Software libre para gestión de proyectos. Soporta sistemas de control de versiones como [CVS](https://es.wikipedia.org/wiki/CVS), [Subversion](https://es.wikipedia.org/wiki/Subversion_(software)), Git, Mercurial y [Bazaar](https://es.wikipedia.org/wiki/Bazaar_(software)).
 
 ## Configuracion por primera vez
 
@@ -446,10 +457,10 @@ Existen varios comandos útiles que servirán para trabajar con ramas. A continu
 | Comando | Descripción |
 | ----------- | ----------- |
 |`git branch` | Lista todas las ramas del repositorio|
-|`git branch <rama>` | Crea una rama llamada <rama>|
+|`git branch <rama>` | Crea una rama llamada < rama >|
 |`git branch -d <rama>` | Elimina la rama especificada. Esta opción evita que se elimine la rama si hay cambios pendientes de fusionar|
 |`git branch -D <rama>` | Tiene la misma función que la anterior, la diferencia es que "fuerza" la eliminación, sin verificar si hay cambios pendientes.|
-|`git branch -m <rama>` | Cambia el nombre de la rama actual a <rama>|
+|`git branch -m <rama>` | Cambia el nombre de la rama actual a < rama>|
 
 ### Comando git checkout
 Uno de los comandos más utilizados al trabajar con ramas es el comando `git checkout` que en escencia, permite cambiar entre las diferentes opciones de un objeto, como las ramas. 
@@ -461,9 +472,9 @@ A continuación, algunas de las funciones del comando:
 | Comando | Descripción |
 | ----------- | ----------- |
 |`git checkout <rama-exisente>` | Cambia a una rama ya creada en el repositorio. Pueden consultarse con el comando `git branch`|
-|`git checkout -b <nueva-rama>` | Crea la rama <nueva-rama> y cambia a ella instantáneamente.|
-|`git checkout -b <nueva-rama> <rama-existente>` | Crea la rama <nueva-rama> basada en la rama <rama-existente> y no en la rama actual.|
-|`git checkout <rama>` | Pasa a <rama>|
+|`git checkout -b <nueva-rama>` | Crea la rama < nueva-rama> y cambia a ella instantáneamente.|
+|`git checkout -b <nueva-rama> <rama-existente>` | Crea la rama < nueva-rama> basada en la rama < rama-existente> y no en la rama actual.|
+|`git checkout <rama>` | Pasa a < rama>|
 
 ### Comando git merge
 
@@ -567,3 +578,86 @@ Con extensiones GitFlow
 git flow hotfix finish hotfix_branch
 ```
 
+### Trabajo con repositorios remotos
+
+Anteriormente se explicó el concepto de repositorios Repositorios Remotos. A continuación, se explicarán algunas de las funcionalidades más útiles y conocidas cuando se trabaja con este tipo de repositorios. 
+
+**Ver los repositorios remotos**
+```console
+git remote
+
+##La opción -v se utiliza para mostrar las URL que #Git asocia al nombre del repositorio
+git remote -v
+```
+
+**Añadir repositorios remotos**
+
+Para agregar un repositorio remoto y añadirle un "alias" con el que se pueda identificar se utiliza el siguiente comando.
+
+```console
+git remote add <alias> <url-remoto>
+```
+
+Así, de ese momento en adelante se podrá utilizar < alias> cuando se haga referencia a ese repositorio en específico. 
+
+**Modificar y eliminar repositorios remotos**
+
+```console
+git remote rm <nombre> 
+```
+Elimina la conexión al repositorio.
+
+```console
+git remote rename <anterior-nombre> <nuevo-nombre>
+```
+
+Cambia el nombre de la conexión remota de < anterior nombre> a < nuevo nombre>
+
+**Traer repositorios remotos**
+
+**Git Fetch**
+Este comando extrae del proyecto remoto los datos que aún no se tienen en el repositorio o "copia" local. Este comando no combina los cambios extraidos con lo existente en el repositorio local, por lo que brinda mayor seguridad al extraer cambios. 
+
+```console
+##Recuperar todas las ramas del repositorio
+git fetch <nombre-remoto> 
+
+##Recuperar solo la rama especificada
+git fetch <nombre-remoto> <nombre-rama>
+
+##Recuperar todos los repositorios remotos y sus ramas
+git fetch --all
+
+##Ejecutar una demostración del comando, pero sin ejecutarlo realmente
+
+git fetch --dry-run
+```
+
+**Git pull**
+Extrae y descarga el contenido del repositorio remoto, actualizando el repositorio local. Debe tenerse cuidado, pues al combinar cambios, de no hacerlo correctamente se pueden perder cambios locales que aún no estén en el repositorio remoto. Es de alguna forma, una combinación entre los comandos `git fetch` y `git merge`
+
+```console
+##Recupera la copia del repositorio remoto especificado en la rama actual y se fusiona con lo existente en la copia local.
+git pull <repositorio>
+
+##Extrae el contenido del remoto, pero no se fusiona
+git pull --no-commit <remoto>
+
+##Para integrar la rama local a la remota.
+git pull --rebase <remoto>
+
+##Imprime detalles de lo descargado y fusionado.
+git pull --verbose
+```
+
+**Enviar cambios a repositorio remoto**
+
+Cuando se tiene un proyecto en un repositorio remoto y se finalizan los cambios, no es suficiente con realizar un commit; deben enviarse los cambios al remoto. Para esto se utiliza el comando `git push` que envía todos los commits realizados al servidor. A continuación, algunas de las opciones más comunes de este comando:
+
+```console
+##Envía los cambios a una rama en específico. 
+git push <repositorio-remoto> <rama>
+
+##Envía los cambios, pero "fuerza" la fusión con la rama destino. No se aconseja utilizarlo
+git push <repositorio-remoto> --force
+```
