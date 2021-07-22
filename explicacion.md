@@ -145,6 +145,36 @@ referencias se hacen a los commits, entre las más generales están
 del código "estable". También a modo de ejemplo, podemos ver la
 referencia al commit actual, llamada `HEAD`.
 
+### Ramas
+
+Trabajar con ramas significa que se "aparta" de la línea principal de desarrollo, también conocida como *main* para continuar el trabajo por otra ruta que no interfiera con lo existente en la principal. 
+
+Recordando que los commits son instantáneas o *snapshots* de los cambios realizados, las ramas son de alguna forma, una referencia a estas capturas. 
+
+Pensando en el repositorio como un árbol, una rama tiene el contenido del tronco, pero además características diferentes que hacen a esta rama única e independiente de las demás.
+
+### Fusiones: `git merge`
+
+El comando `git merge` combina las diferentes ramas en una única rama. Suponiendo que se saca una rama para una funcionalidad de la rama `main`, se termina con esta funcionalidad y se debe integrar la misma a la rama main. 
+
+### Gitflow
+
+Gitflow es un flujo de trabajo que favorece la integración continua y las prácticas de implementación de [DevOps](https://azure.microsoft.com/es-es/overview/what-is-devops/). Más que incluir comandos diferentes a nivel de Git, es una metodología en la que se asignan funciones específicas a las ramas de cómo deben funcionar e interactuar entre sí. 
+
+Un flujo completo GitFlow, luce de la siguiente forma: 
+![](imgs/git-gitflow.png)
+
+Se creean principalmente dos ramas, **Main** y **Develop**. La primera almacena el historial "oficial" del repositorio, mientras que la segunda sirve para integrar las diferentes funcionalidades. 
+
+Existen otras ramas de función o **Features**, dado que todas las funciones deben ir en su propia rama, utilizando en lugar de la rama **Master** como rama primaria u origen, la rama **Develop**. 
+
+Además, existen ramas de Publicación o **Release**, que se utilizan cuando ya la rama develop tenga suficientes funcionalidades. Esta rama se extrae a partir de la Rama **Develop** y una vez llega allí, ya no se pueden implementar nuevas funcionalidades. Cuando esta rama está lista, se fusiona con la rama **Main**.
+
+Y para los bugs en producción...
+![](imgs/git-productionmeme.png)
+
+Existen también las ramas de corrección o **Hotfix**, que sirven para reparar las publicaciones de producción, o en otras palabras, lo que está en la rama **Main**. La diferencia entre esta rama y las ramas de **Release** y **Feature**, es que esta se basa en el **Main**. Así puede tenerse la última versión publicada sin interferir con el resto del flujo de trabajo. 
+
 
 ## Configuracion por primera vez
 
@@ -408,3 +438,132 @@ Así como la mayoría de comandos, este tiene opciones que permiten mostrar la i
 |--graph | Muestra un grafo de la rama y del historial de merge.|
 |--since y --until | Opción para incluir los commits desde o hasta cierto periodo de tiempo.|
 |--author | Aplica un filtro a los commits realizados solo por cierto usuario.|
+
+### Trabajo con ramas
+
+Existen varios comandos útiles que servirán para trabajar con ramas. A continuación, se muestran algunos de ellos: 
+
+| Comando | Descripción |
+| ----------- | ----------- |
+|`git branch` | Lista todas las ramas del repositorio|
+|`git branch <rama>` | Crea una rama llamada <rama>|
+|`git branch -d <rama>` | Elimina la rama especificada. Esta opción evita que se elimine la rama si hay cambios pendientes de fusionar|
+|`git branch -D <rama>` | Tiene la misma función que la anterior, la diferencia es que "fuerza" la eliminación, sin verificar si hay cambios pendientes.|
+|`git branch -m <rama>` | Cambia el nombre de la rama actual a <rama>|
+
+### Comando git checkout
+Uno de los comandos más utilizados al trabajar con ramas es el comando `git checkout` que en escencia, permite cambiar entre las diferentes opciones de un objeto, como las ramas. 
+
+Con este comando es posible desplazarse entre las ramas que se crearon con el comando `git branch`; en otras palabras, separar o seleccionar la línea de trabajo específica en la que se está trabajando. 
+
+A continuación, algunas de las funciones del comando:
+
+| Comando | Descripción |
+| ----------- | ----------- |
+|`git checkout <rama-exisente>` | Cambia a una rama ya creada en el repositorio. Pueden consultarse con el comando `git branch`|
+|`git checkout -b <nueva-rama>` | Crea la rama <nueva-rama> y cambia a ella instantáneamente.|
+|`git checkout -b <nueva-rama> <rama-existente>` | Crea la rama <nueva-rama> basada en la rama <rama-existente> y no en la rama actual.|
+|`git checkout <rama>` | Pasa a <rama>|
+
+### Comando git merge
+
+```console
+# Primero se cambia a la rama a la que se va a fusionar (en este caso la rama Main)
+git checkout main
+
+#Se realiza la fusión de la rama requerida.
+git merge <rama>
+```
+
+### Flujos de trabajo con y sin extensiones GitFlow
+
+Hay un conjunto de herramientas que componen GitFlow, las cuales se pueden instalar para Windows en este [enlace](https://git-scm.com/download/win). Luego de instalado, el comando `git flow init` creará el contenedor del repositorio creando las ramas. A continuación, se mostrarán una serie de comandos con GitFlow y sin este, para crear las diferentes ramas y funcionalidades.
+
+**Crear rama develop**
+
+```console
+git branch develop
+git push -u origin develop
+```
+
+**Ramas Features**
+
+Sin extensiones GitFlow
+```console
+git checkout develop
+git checkout -b feature_branch
+```
+
+Con extensiones GitFlow
+```console
+git flow feature start feature_branch
+```
+
+Cuando se haya terminado el trabajo de cierta función, se debe integrar a la rama **Develop**
+
+Sin extensiones GitFlow
+```console
+git checkout develop
+git merge feature_branch
+```
+
+Con extensiones GitFlow
+```console
+git flow feature finish feature_branch
+```
+
+**Rama Release**
+Sin extensiones GitFlow
+```console
+git checkout develop
+git checkout -b release/0.1.0 //O el consecutivo que aplique
+```
+
+Con extensiones GitFlow
+```console
+git flow release start 0.1.0 
+```
+
+Para finalizar una rama **Release**
+
+Sin extensiones GitFlow
+```console
+git checkout main
+git merge release/0.1.0
+```
+
+Con extensiones GitFlow
+```console
+git flow release finish '0.1.0'
+```
+
+**Ramas de corrección**
+
+Sin extensiones GitFlow
+```console
+git checkout main
+git checkut -b hotfix_branch
+```
+
+Con extensiones GitFlow
+```console
+git flow hotfix start hotfix_branch
+```
+
+Para finalizarla, se fusiona con main y con develop
+
+
+Sin extensiones GitFlow
+```console
+git checkout main
+git merge hotfix_branch
+git checkout develop
+git merge hotfix_branch
+git branch -D hotfix_branch
+```
+
+Con extensiones GitFlow
+```console
+git flow hotfix finish hotfix_branch
+```
+
